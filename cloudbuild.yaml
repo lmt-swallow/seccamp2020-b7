@@ -1,0 +1,41 @@
+steps:
+  - id: tf init
+    name: hashicorp/terraform:0.12.24
+    dir: ./playground/infrastructure
+    entrypoint: sh
+    args:
+      - -c
+      - |
+        echo ""
+        echo "[INIT]"            
+        terraform init
+
+  - id: tf plan
+    name: hashicorp/terraform:0.12.24
+    dir: ./playground/infrastructure
+    entrypoint: sh
+    args:
+      - -c
+      - |
+        echo ""
+        echo "[PLAN]"
+        terraform plan
+
+  - id: tf apply
+    name: hashicorp/terraform:0.12.24
+    dir: ./playground/infrastructure
+    entrypoint: sh
+    args:
+      - -c
+      - |
+        echo ""
+        echo "[APPLY]"
+        if [ -n "$_BASE_BRANCH" ]; then
+          echo 'Skip. This is a Pull Request.'      
+        elif [ -d "environments/$BRANCH_NAME/" ]; then
+          cd environments/$BRANCH_NAME      
+          terraform apply -auto-approve
+        else
+          echo "Skip. '$BRANCH_NAME' is not connected to the actual environment!"
+        fi
+timeout: 1800s
