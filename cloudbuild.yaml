@@ -1,7 +1,7 @@
 steps:
   - id: tf init
     name: hashicorp/terraform:0.12.24
-    dir: ./playground/infrastructure
+    dir: ./src/infrastructure
     entrypoint: sh
     args:
       - -c
@@ -12,7 +12,7 @@ steps:
 
   - id: tf plan
     name: hashicorp/terraform:0.12.24
-    dir: ./playground/infrastructure
+    dir: ./src/infrastructure
     entrypoint: sh
     args:
       - -c
@@ -23,7 +23,7 @@ steps:
 
   - id: tf apply
     name: hashicorp/terraform:0.12.24
-    dir: ./playground/infrastructure
+    dir: ./src/infrastructure
     entrypoint: sh
     args:
       - -c
@@ -32,10 +32,7 @@ steps:
         echo "[APPLY]"
         if [ -n "$_BASE_BRANCH" ]; then
           echo 'Skip. This is a Pull Request.'      
-        elif [ -d "environments/$BRANCH_NAME/" ]; then
-          cd environments/$BRANCH_NAME      
-          terraform apply -auto-approve
         else
-          echo "Skip. '$BRANCH_NAME' is not connected to the actual environment!"
+          terraform apply -auto-approve
         fi
 timeout: 1800s
