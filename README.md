@@ -1,4 +1,4 @@
-# seccamp2020
+# seccamp2020-b7
 
 ## How to deploy
 
