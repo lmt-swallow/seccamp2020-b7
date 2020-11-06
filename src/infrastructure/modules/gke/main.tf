@@ -12,15 +12,16 @@ resource "google_service_account" "challenge_cluster" {
 }
 
 resource "google_project_iam_policy" "project" {
-  project = "your-project-id"
-  policy_data = {
-    binding = {
-      role = "roles/editor"
+  policy_data = google_iam_policy.gke.policy_data
+}
 
-      members = [
-        "serviceAccount:${google_service_account.challenge_cluster.email}",
-      ]
-    }
+data "google_iam_policy" "gke" {
+  binding = {
+    role = "roles/editor"
+
+    members = [
+      "serviceAccount:${google_service_account.challenge_cluster.email}",
+    ]
   }
 }
 
