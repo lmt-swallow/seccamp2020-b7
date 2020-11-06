@@ -13,5 +13,6 @@ resource "google_dns_managed_zone" "default" {
 }
 
 module "gke" {
-  source = "./modules/gke"
+  project = var.project
+  source  = "./modules/gke"
 }

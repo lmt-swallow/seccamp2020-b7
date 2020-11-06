@@ -12,6 +12,7 @@ resource "google_service_account" "challenge_cluster" {
 }
 
 resource "google_project_iam_policy" "project" {
+  project     = var.project
   policy_data = data.google_iam_policy.gke.policy_data
 }
 
