@@ -1,7 +1,7 @@
 steps:
   - id: tf init
     name: hashicorp/terraform:0.12.24
-    dir: ./playground/infrastructure
+    dir: ./src/infrastructure
     entrypoint: sh
     args:
       - -c
@@ -12,7 +12,7 @@ steps:
 
   - id: tf plan
     name: hashicorp/terraform:0.12.24
-    dir: ./playground/infrastructure
+    dir: ./src/infrastructure
     entrypoint: sh
     args:
       - -c
@@ -23,7 +23,7 @@ steps:
 
   - id: tf apply
     name: hashicorp/terraform:0.12.24
-    dir: ./playground/infrastructure
+    dir: ./src/infrastructure
     entrypoint: sh
     args:
       - -c
