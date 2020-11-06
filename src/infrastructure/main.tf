@@ -12,6 +12,6 @@ resource "google_dns_managed_zone" "default" {
   dns_name = "${var.domain_base}."
 }
 
-module "modules/gcp-api" {
-  source = ""
+module "gke" {
+  source = "modules/gke"
 }
