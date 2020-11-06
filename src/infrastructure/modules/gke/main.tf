@@ -12,7 +12,7 @@ resource "google_service_account" "challenge_cluster" {
 }
 
 resource "google_project_iam_policy" "project" {
-  policy_data = google_iam_policy.gke.policy_data
+  policy_data = data.google_iam_policy.gke.policy_data
 }
 
 data "google_iam_policy" "gke" {
