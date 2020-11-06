@@ -32,10 +32,7 @@ steps:
         echo "[APPLY]"
         if [ -n "$_BASE_BRANCH" ]; then
           echo 'Skip. This is a Pull Request.'      
-        elif [ -d "environments/$BRANCH_NAME/" ]; then
-          cd environments/$BRANCH_NAME      
-          terraform apply -auto-approve
         else
-          echo "Skip. '$BRANCH_NAME' is not connected to the actual environment!"
+          terraform apply -auto-approve
         fi
 timeout: 1800s
