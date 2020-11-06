@@ -16,7 +16,7 @@ resource "google_project_iam_policy" "project" {
 }
 
 data "google_iam_policy" "gke" {
-  binding = {
+  binding {
     role = "roles/editor"
 
     members = [
@@ -58,9 +58,5 @@ resource "google_container_node_pool" "challenge_cluster_nodes" {
     service_account = google_service_account.challenge_cluster
 
     machine_type = "n1-standard-2"
-
-    metadata {
-      disable-legacy-endpoints = "true"
-    }
   }
 }
