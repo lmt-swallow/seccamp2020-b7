@@ -11,3 +11,8 @@ resource "google_dns_managed_zone" "default" {
   name     = "default"
   dns_name = "${var.domain_base}."
 }
+
+module "gke" {
+  project = var.project
+  source  = "./modules/gke"
+}
