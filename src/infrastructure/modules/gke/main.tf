@@ -56,7 +56,7 @@ resource "google_container_node_pool" "challenge_cluster_nodes" {
   }
 
   node_config {
-    service_account = google_service_account.challenge_cluster
+    service_account = google_service_account.challenge_cluster.name
 
     machine_type = "n1-standard-2"
   }
