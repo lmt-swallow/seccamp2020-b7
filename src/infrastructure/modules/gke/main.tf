@@ -28,27 +28,20 @@ resource "google_service_account" "cert_manager" {
   ]
 }
 
-resource "google_project_iam_policy" "project" {
-  project     = var.project
-  policy_data = data.google_iam_policy.gke.policy_data
+resource "google_project_iam_binding" "editor" {
+  role = "roles/editor"
+
+  members = [
+    "serviceAccount:${google_service_account.challenge_cluster.email}",
+  ]
 }
 
-data "google_iam_policy" "gke" {
-  binding {
-    role = "roles/editor"
+resource "google_project_iam_binding" "dns" {
+  role = "roles/dns.admin"
 
-    members = [
-      "serviceAccount:${google_service_account.challenge_cluster.email}",
-    ]
-  }
-
-  binding {
-    role = "roles/dns.admin"
-
-    members = [
-      "serviceAccount:${google_service_account.cert_manager.email}",
-    ]
-  }
+  members = [
+    "serviceAccount:${google_service_account.cert_manager.email}",
+  ]
 }
 
 
