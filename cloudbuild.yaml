@@ -36,8 +36,8 @@ steps:
           terraform apply -auto-approve
         fi
 
-  - id: tf apply
-    name: hashicorp/terraform:0.12.24
+  - id: apply manifests
+    name: gcr.io/cloud-builders/gcloud
     dir: ./src/manifests
     entrypoint: sh
     args:
