@@ -1,0 +1,19 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: challenge-cluster-certificate
+spec:
+  secretName: challenge-cluster-certificate
+  issuerRef:
+    name: letsencrypt-issuer
+    kind: Issuer
+  commonName: "*.$DOMAIN_BASE"
+  dnsNames:
+  - $DOMAIN_BASE
+  acme:
+    config:
+    - dns01:
+        provider: clouddns
+      domains:
+      - "*.$DOMAIN_BASE"
+      - $DOMAIN_BASE

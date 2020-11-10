@@ -4,11 +4,20 @@ resource "google_project_service" "gke" {
   service = "container.googleapis.com"
 }
 
-# service account
+# service accounts
 
 resource "google_service_account" "challenge_cluster" {
   account_id   = "challenge-cluster"
   display_name = "Challenge Cluster"
+}
+
+resource "google_compute_address" "challenge_cluster_external_ip" {
+  name = "challenge-cluster-external-ip"
+}
+
+resource "google_service_account" "cert_manager" {
+  account_id   = "cert-manager"
+  display_name = "Cert Manager"
 }
 
 resource "google_project_iam_policy" "project" {
@@ -24,7 +33,16 @@ data "google_iam_policy" "gke" {
       "serviceAccount:${google_service_account.challenge_cluster.email}",
     ]
   }
+
+  binding {
+    role = "roles/dns.admin"
+
+    members = [
+      "serviceAccount:${google_service_account.cert_manager.email}",
+    ]
+  }
 }
+
 
 # cluster itself
 

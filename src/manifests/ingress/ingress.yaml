@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+    name: ingress
+    annotations:
+        kubernetes.io/ingress.allow-http: "false"
+        kubernetes.io/ingress.global-static-ip-name: "challenge-cluster-external-ip"
+    labels:
+        app: ingress
+spec:
+    tls:
+    - secretName: challenge-cluster-certificate
+    backend:
+        serviceName: hello
+        servicePort: 80

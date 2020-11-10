@@ -35,4 +35,19 @@ steps:
         else
           terraform apply -auto-approve
         fi
+
+  - id: tf apply
+    name: hashicorp/terraform:0.12.24
+    dir: ./src/manifests
+    entrypoint: sh
+    args:
+      - -c
+      - |
+        echo ""
+        echo "[APPLY MANIFESTS]"
+        if [ -n "$_BASE_BRANCH" ]; then
+          echo 'Skip. This is a Pull Request.'      
+        else
+          gcloud builds submit . --config=./cloudbuild.yaml
+        fi        
 timeout: 1800s

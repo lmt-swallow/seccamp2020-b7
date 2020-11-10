@@ -1,0 +1,18 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: letsencrypt-issuer
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: noreply@domain.example
+    privateKeySecretRef:
+      name: letsencrypt-issuer
+    dns01:
+      providers:
+        - name: clouddns
+          clouddns:
+            serviceAccountSecretRef:
+              name: cert-manager-sa-key
+              key: cert-manager-key.json
+            project: $PROJECT_ID
