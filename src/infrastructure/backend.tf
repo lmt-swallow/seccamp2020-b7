@@ -2,6 +2,6 @@
 
 terraform {
   backend "gcs" {
-    bucket = "seccamp2020-b7-internal"
+    bucket = "seccamp-2020-b7"
   }
 }
