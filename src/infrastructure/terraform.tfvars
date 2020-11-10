@@ -1,4 +1,2 @@
-project  = "seccamp-2020-b7"
-region   = "asia-northeast1"
-zone     = "asia-northeast1-a"
+project  = "seccamp-2020-b7-prod"
 domain_base = "seccamp.hacq.me"
