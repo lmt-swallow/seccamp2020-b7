@@ -10,10 +10,6 @@ steps:
 
       kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.0.4/cert-manager.yaml
 
-      kubectl create clusterrolebinding cluster-admin-binding \
-        --clusterrole=cluster-admin \
-        --user=$(gcloud config get-value core/account)
-
       gcloud iam service-accounts keys create cert-manager-key.json \
         --iam-account cert-manager@$PROJECT_ID.iam.gserviceaccount.com
 
