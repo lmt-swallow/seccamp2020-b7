@@ -40,7 +40,7 @@ resource "google_project_iam_custom_role" "challenge-node-role" {
 }
 
 resource "google_project_iam_binding" "node" {
-  role = google_project_iam_custom_role.challenge-cluster-role.name
+  role = google_project_iam_custom_role.challenge-node-role.name
 
   members = [
     "serviceAccount:${google_service_account.challenge_cluster.email}",
