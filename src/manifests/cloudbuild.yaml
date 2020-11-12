@@ -39,7 +39,7 @@ steps:
         sed -i "s/\$$PROJECT_ID/$PROJECT_ID/g" ./cert-manager/issuer.yaml
         kubectl apply -f ./cert-manager/issuer.yaml
 
-        DOMAIN_BASE=$(gcloud dns managed-zones describe default --project $PROJECT_ID --format 'value(dnsName)' | sed 's/\.$//')        
+        DOMAIN_BASE=$(gcloud dns managed-zones describe default --project $PROJECT_ID --format 'value(dnsName)' | sed 's/\.$//')
         sed -i "s/\$$DOMAIN_BASE/$$DOMAIN_BASE/g" ./cert-manager/certificate.yaml
         kubectl apply -f ./cert-manager/certificate.yaml
 
@@ -68,4 +68,7 @@ steps:
       - |
         alias kubectl=/shared/kubectl
         gcloud container clusters get-credentials challenges --region asia-northeast1 --project $PROJECT_ID
+
+        DOMAIN_BASE=$(gcloud dns managed-zones describe default --project $PROJECT_ID --format 'value(dnsName)' | sed 's/\.$//')        
+        sed -i "s/\$$DOMAIN_BASE/$$DOMAIN_BASE/g" ./ingress/ingress.yaml
         kubectl apply -f ./ingress/ingress.yaml

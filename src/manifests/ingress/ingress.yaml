@@ -13,3 +13,16 @@ spec:
     backend:
         serviceName: hello-app
         servicePort: 80
+    rules:
+        - host: "$DOMAIN_BASE"
+          http:
+              paths:
+                  - backend:
+                        serviceName: hello-app
+                        servicePort: 80
+        - host: "*.$DOMAIN_BASE"
+          http:
+              paths:
+                  - backend:
+                        serviceName: hello-app
+                        servicePort: 80
