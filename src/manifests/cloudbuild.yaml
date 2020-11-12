@@ -1,11 +1,27 @@
 steps:
-  - id: cert-manager
+  - id: get-latest-kubectl
     name: gcr.io/cloud-builders/gcloud
+    volumes:
+      - name: shared
+        path: /shared
     entrypoint: sh
     args:
       - -c
       - |
-        alias kubectl=kubectl.1.18
+        curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.19.0/bin/linux/amd64/kubectl
+        chmod +x kubectl
+        mv kubectl /shared/kubectl
+
+  - id: cert-manager
+    name: gcr.io/cloud-builders/gcloud
+    volumes:
+      - name: shared
+        path: /shared
+    entrypoint: sh
+    args:
+      - -c
+      - |
+        alias kubectl=/shared/kubectl
         gcloud container clusters get-credentials challenges --region asia-northeast1 --project $PROJECT_ID        
 
         kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.0.4/cert-manager.yaml
@@ -26,21 +42,27 @@ steps:
 
   - id: hello-app
     name: gcr.io/cloud-builders/gcloud
+    volumes:
+      - name: shared
+        path: /shared
     entrypoint: sh
     args:
       - -c
       - |
-        alias kubectl=kubectl.1.18
+        alias kubectl=/shared/kubectl
         gcloud container clusters get-credentials challenges --region asia-northeast1 --project $PROJECT_ID        
         kubectl apply -f ./hello-app/deployment.yaml
         kubectl apply -f ./hello-app/service.yaml
 
   - id: ingress
     name: gcr.io/cloud-builders/gcloud
+    volumes:
+      - name: shared
+        path: /shared
     entrypoint: sh
     args:
       - -c
       - |
-        alias kubectl=kubectl.1.18
+        alias kubectl=/shared/kubectl
         gcloud container clusters get-credentials challenges --region asia-northeast1 --project $PROJECT_ID
         kubectl apply -f ./ingress/ingress.yaml
