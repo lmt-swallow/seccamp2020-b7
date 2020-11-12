@@ -49,6 +49,15 @@ resource "google_project_iam_member" "node" {
   ]
 }
 
+resource "google_project_iam_member" "node-gcr" {
+  role   = "roles/storage.objectViewer"
+  member = "serviceAccount:${google_service_account.challenge_cluster.email}"
+
+  depends_on = [
+    google_project_service.iam,
+  ]
+}
+
 resource "google_project_iam_member" "dns" {
   role   = "roles/dns.admin"
   member = "serviceAccount:${google_service_account.cert_manager.email}"

@@ -11,3 +11,4 @@ spec:
   dnsNames:
     - $DOMAIN_BASE
     - "*.$DOMAIN_BASE"
+    - "*.challenge.$DOMAIN_BASE"
