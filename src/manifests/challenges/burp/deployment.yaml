@@ -16,5 +16,6 @@ spec:
       containers:
         - name: app
           image: gcr.io/$PROJECT_ID/challenges/burp/app:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
