@@ -9,7 +9,7 @@ metadata:
         app: ingress
 spec:
     tls:
-    - secretName: challenge-cluster-certificate
+        - secretName: challenge-cluster-certificate
     backend:
-        serviceName: hello
+        serviceName: hello-app
         servicePort: 80
