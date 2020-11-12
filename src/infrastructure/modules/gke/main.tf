@@ -45,6 +45,10 @@ resource "google_project_iam_binding" "node" {
   members = [
     "serviceAccount:${google_service_account.challenge_cluster.email}",
   ]
+
+  depends_on = [
+    google_project_iam_custom_role.challenge-node-role,
+  ]
 }
 
 resource "google_project_iam_binding" "dns" {
@@ -60,6 +64,10 @@ resource "google_project_iam_binding" "dns" {
 
 resource "google_compute_global_address" "challenge_cluster_external_ip" {
   name = "challenge-cluster-external-ip"
+
+  depends_on = [
+    google_project_service.compute,
+  ]
 }
 
 resource "google_container_cluster" "challenge_cluster" {
