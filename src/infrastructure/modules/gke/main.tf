@@ -47,7 +47,7 @@ resource "google_project_iam_binding" "dns" {
 
 # cluster itself
 
-resource "google_compute_address" "challenge_cluster_external_ip" {
+resource "google_compute_global_address" "challenge_cluster_external_ip" {
   name = "challenge-cluster-external-ip"
 }
 
