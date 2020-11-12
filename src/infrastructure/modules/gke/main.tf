@@ -73,7 +73,22 @@ resource "google_container_cluster" "challenge_cluster" {
   name     = "challenges"
   location = "asia-northeast1"
 
-  initial_node_count = 2
+  initial_node_count = 1
+
+  cluster_autoscaling {
+    enabled = true
+    resource_limits {
+      resource_type = "cpu"
+      minimum       = 3
+      maximum       = 32
+    }
+
+    resource_limits {
+      resource_type = "memory"
+      minimum       = 3
+      maximum       = 32
+    }
+  }
 
   node_config {
     service_account = google_service_account.challenge_cluster.email
