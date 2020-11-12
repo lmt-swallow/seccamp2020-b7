@@ -9,9 +9,8 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-issuer
     solvers:
-      dns01:
-        providers:
-          - name: clouddns
+      - dns01:
+          providers:
             clouddns:
               serviceAccountSecretRef:
                 name: cert-manager-sa-key

@@ -11,10 +11,3 @@ spec:
   dnsNames:
     - $DOMAIN_BASE
     - "*.$DOMAIN_BASE"
-  acme:
-    config:
-      - dns01:
-          provider: clouddns
-        domains:
-          - $DOMAIN_BASE
-          - "*.$DOMAIN_BASE"

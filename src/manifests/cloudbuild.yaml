@@ -32,7 +32,7 @@ steps:
             --iam-account cert-manager@$PROJECT_ID.iam.gserviceaccount.com
 
           kubectl create secret generic cert-manager-sa-key \
-            --from-file=cert-manager-key.json=./cert-manager-key.json \
+            --from-file=cert-manager-key.json \
             --namespace=cert-manager
         fi
 
