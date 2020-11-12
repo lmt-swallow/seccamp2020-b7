@@ -5,6 +5,13 @@ provider "google" {
 data "google_project" "project" {
 }
 
+# gke
+
+module "gke" {
+  project = var.project
+  source  = "./modules/gke"
+}
+
 # dns
 
 resource "google_project_service" "dns" {
@@ -20,7 +27,7 @@ resource "google_dns_managed_zone" "default" {
   ]
 }
 
-resource "google_dns_record_set" "name-for-admin-console" {
+resource "google_dns_record_set" "default-record" {
   name         = "${var.domain_base}"
   type         = "A"
   ttl          = 300
@@ -32,7 +39,7 @@ resource "google_dns_record_set" "name-for-admin-console" {
   ]
 }
 
-resource "google_dns_record_set" "name-for-admin-console" {
+resource "google_dns_record_set" "default-wildcard-record" {
   name         = "*.${var.domain_base}"
   type         = "A"
   ttl          = 300
@@ -42,11 +49,4 @@ resource "google_dns_record_set" "name-for-admin-console" {
   depends_on = [
     google_project_service.dns,
   ]
-}
-
-# gke
-
-module "gke" {
-  project = var.project
-  source  = "./modules/gke"
 }
