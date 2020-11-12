@@ -8,6 +8,10 @@ resource "google_project_service" "iam" {
   service = "iam.googleapis.com"
 }
 
+resource "google_project_service" "compute" {
+  service = "compute.googleapis.com"
+}
+
 # service accounts
 
 resource "google_service_account" "challenge_cluster" {
@@ -28,8 +32,15 @@ resource "google_service_account" "cert_manager" {
   ]
 }
 
-resource "google_project_iam_binding" "editor" {
-  role = "roles/editor"
+resource "google_project_iam_custom_role" "challenge-node-role" {
+  role_id     = "challenge_node_role"
+  title       = "Challenge Node"
+  description = "A role for challenge nodes"
+  permissions = ["compute.projects.setCommonInstanceMetadata", "compute.projects.get", "compute.globalOperations.get"]
+}
+
+resource "google_project_iam_binding" "node" {
+  role = google_project_iam_custom_role.challenge-cluster-role.name
 
   members = [
     "serviceAccount:${google_service_account.challenge_cluster.email}",
@@ -55,8 +66,13 @@ resource "google_container_cluster" "challenge_cluster" {
   name     = "challenges"
   location = "asia-northeast1"
 
-  remove_default_node_pool = true
-  initial_node_count       = 1
+  initial_node_count = 3
+
+  node_config {
+    service_account = google_service_account.challenge_cluster.name
+
+    machine_type = "n1-standard-2"
+  }
 
   master_auth {
     username = ""
@@ -65,22 +81,6 @@ resource "google_container_cluster" "challenge_cluster" {
 
   depends_on = [
     google_project_service.gke,
+    google_project_service.compute,
   ]
-}
-
-resource "google_container_node_pool" "challenge_cluster_nodes" {
-  name       = "challenges"
-  location   = "asia-northeast1"
-  cluster    = google_container_cluster.challenge_cluster.name
-  node_count = 1
-
-  management {
-    auto_repair = true
-  }
-
-  node_config {
-    service_account = google_service_account.challenge_cluster.name
-
-    machine_type = "n1-standard-2"
-  }
 }
