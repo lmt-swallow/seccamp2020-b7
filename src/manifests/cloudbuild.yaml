@@ -1,11 +1,11 @@
 steps:
   - id: cert-manager
-    name: gcr.io/cloud-builders/kubectl
+    name: gcr.io/cloud-builders/gcloud
     entrypoint: sh
     args:
       - -c
       - |
-        alias kubectl=/builder/kubectl.bash
+        gcloud container clusters get-credentials challenges --region asia-northeast1 --project $PROJECT_ID        
         kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.0.4/cert-manager.yaml
 
         gcloud iam service-accounts keys create cert-manager-key.json \
@@ -21,31 +21,22 @@ steps:
         DOMAIN_BASE=$(gcloud dns managed-zones describe default --format 'value(dnsName)' | sed 's/\.$//')
         sed -i "s/\$$DOMAIN_BASE/$DOMAIN_BASE/g" ./cert-manager/certificate.yaml
         kubectl apply --validate=false -f ./cert-manager/certificate.yaml
-    env:
-      - CLOUDSDK_COMPUTE_REGION=asia-northeast1
-      - CLOUDSDK_CONTAINER_CLUSTER=challenges
 
   - id: hello-app
-    name: gcr.io/cloud-builders/kubectl
+    name: gcr.io/cloud-builders/gcloud
     entrypoint: sh
     args:
       - -c
       - |
-        alias kubectl=/builder/kubectl.bash
+        gcloud container clusters get-credentials challenges --region asia-northeast1 --project $PROJECT_ID        
         kubectl apply -f ./hello-app/deployment.yaml
         kubectl apply -f ./hello-app/service.yaml
-    env:
-      - CLOUDSDK_COMPUTE_REGION=asia-northeast1
-      - CLOUDSDK_CONTAINER_CLUSTER=challenges
 
   - id: ingress
-    name: gcr.io/cloud-builders/kubectl
+    name: gcr.io/cloud-builders/gcloud
     entrypoint: sh
     args:
       - -c
       - |
-        alias kubectl=/builder/kubectl.bash
+        gcloud container clusters get-credentials challenges --region asia-northeast1 --project $PROJECT_ID
         kubectl apply -f ./ingress/ingress.yaml
-    env:
-      - CLOUDSDK_COMPUTE_REGION=asia-northeast1
-      - CLOUDSDK_CONTAINER_CLUSTER=challenges
