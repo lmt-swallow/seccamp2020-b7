@@ -5,7 +5,9 @@ steps:
     args:
       - -c
       - |
+        alias kubectl=kubectl.1.18
         gcloud container clusters get-credentials challenges --region asia-northeast1 --project $PROJECT_ID        
+
         kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.0.4/cert-manager.yaml
 
         gcloud iam service-accounts keys create cert-manager-key.json \
@@ -28,6 +30,7 @@ steps:
     args:
       - -c
       - |
+        alias kubectl=kubectl.1.18
         gcloud container clusters get-credentials challenges --region asia-northeast1 --project $PROJECT_ID        
         kubectl apply -f ./hello-app/deployment.yaml
         kubectl apply -f ./hello-app/service.yaml
@@ -38,5 +41,6 @@ steps:
     args:
       - -c
       - |
+        alias kubectl=kubectl.1.18
         gcloud container clusters get-credentials challenges --region asia-northeast1 --project $PROJECT_ID
         kubectl apply -f ./ingress/ingress.yaml
