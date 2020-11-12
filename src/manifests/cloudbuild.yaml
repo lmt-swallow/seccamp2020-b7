@@ -7,13 +7,14 @@ steps:
       - |      
         CLOUDSDK_COMPUTE_REGION=asia-northeast1
         CLOUDSDK_CONTAINER_CLUSTER=challenges
+        alias kubectl=/builder/kubectl.bash
 
         kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.0.4/cert-manager.yaml
 
         gcloud iam service-accounts keys create cert-manager-key.json \
           --iam-account cert-manager@$PROJECT_ID.iam.gserviceaccount.com
 
-        kubectl create secret generic cert-manager-sa-key
+        kubectl create secret generic cert-manager-sa-key \
           --from-file=cert-manager-key.json=./cert-manager-key.json \
           --namespace=cert-manager
 
@@ -32,6 +33,8 @@ steps:
       - |      
         CLOUDSDK_COMPUTE_REGION=asia-northeast1
         CLOUDSDK_CONTAINER_CLUSTER=challenges
+        alias kubectl=/builder/kubectl.bash
+
         kubectl apply -f ./hello-app/deployment.yaml
         kubectl apply -f ./hello-app/service.yaml
 
@@ -43,5 +46,6 @@ steps:
       - |      
         CLOUDSDK_COMPUTE_REGION=asia-northeast1
         CLOUDSDK_CONTAINER_CLUSTER=challenges
-
+        alias kubectl=/builder/kubectl.bash
+        
         kubectl apply -f ./ingress/ingress.yaml
