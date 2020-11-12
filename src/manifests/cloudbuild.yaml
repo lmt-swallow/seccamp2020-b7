@@ -16,11 +16,11 @@ steps:
           --namespace=cert-manager
 
         sed -i "s/\$$PROJECT_ID/$PROJECT_ID/g" ./cert-manager/issuer.yaml
-        kubectl apply -f ./cert-manager/issuer.yaml
+        kubectl apply --validate=false -f ./cert-manager/issuer.yaml
 
         DOMAIN_BASE=$(gcloud dns managed-zones describe default --format 'value(dnsName)' | sed 's/\.$//')
         sed -i "s/\$$DOMAIN_BASE/$DOMAIN_BASE/g" ./cert-manager/certificate.yaml
-        kubectl apply -f ./cert-manager/certificate.yaml
+        kubectl apply --validate=false -f ./cert-manager/certificate.yaml
     env:
       - CLOUDSDK_COMPUTE_REGION=asia-northeast1
       - CLOUDSDK_CONTAINER_CLUSTER=challenges
