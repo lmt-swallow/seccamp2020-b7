@@ -2,14 +2,18 @@
 
 import os
 import glob
-from flask import Flask, jsonify, request, render_template, make_response
+from flask import Flask, request, render_template
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    flag = None
+    if request.headers.get('X-Gimme', '').lower() == 'flag':
+        flag = 'seccamp{yay_you_are_master_of_burp_repeater}'
+
+    return render_template('index.html', flag=flag)
 
 
 if __name__ == '__main__':
