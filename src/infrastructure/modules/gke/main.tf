@@ -102,6 +102,8 @@ resource "google_container_cluster" "challenge_cluster" {
   node_config {
     service_account = google_service_account.challenge_cluster.email
     machine_type    = "n1-standard-2"
+
+    oauth_scopes = [ "cloud-platform" ]    
   }
 
   master_auth {
