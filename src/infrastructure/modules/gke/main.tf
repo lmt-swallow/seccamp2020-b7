@@ -39,23 +39,22 @@ resource "google_project_iam_custom_role" "challenge-node-role" {
   permissions = ["compute.projects.setCommonInstanceMetadata", "compute.projects.get", "compute.globalOperations.get"]
 }
 
-resource "google_project_iam_binding" "node" {
-  role = google_project_iam_custom_role.challenge-node-role.name
-
-  members = [
-    "serviceAccount:${google_service_account.challenge_cluster.email}",
-  ]
+resource "google_project_iam_member" "node" {
+  role   = google_project_iam_custom_role.challenge-node-role.name
+  member = "serviceAccount:${google_service_account.challenge_cluster.email}"
 
   depends_on = [
     google_project_iam_custom_role.challenge-node-role,
+    google_project_service.iam,
   ]
 }
 
-resource "google_project_iam_binding" "dns" {
-  role = "roles/dns.admin"
+resource "google_project_iam_member" "dns" {
+  role   = "roles/dns.admin"
+  member = "serviceAccount:${google_service_account.cert_manager.email}"
 
-  members = [
-    "serviceAccount:${google_service_account.cert_manager.email}",
+  depends_on = [
+    google_project_service.iam,
   ]
 }
 
@@ -77,9 +76,8 @@ resource "google_container_cluster" "challenge_cluster" {
   initial_node_count = 3
 
   node_config {
-    service_account = google_service_account.challenge_cluster.name
-
-    machine_type = "n1-standard-2"
+    service_account = google_service_account.challenge_cluster.email
+    machine_type    = "n1-standard-2"
   }
 
   master_auth {
