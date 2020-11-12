@@ -1,4 +1,4 @@
-apiVersion: certmanager.k8s.io/v1alpha1
+apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: challenge-cluster-certificate
@@ -9,11 +9,11 @@ spec:
     kind: Issuer
   commonName: "*.$DOMAIN_BASE"
   dnsNames:
-  - $DOMAIN_BASE
+    - $DOMAIN_BASE
   acme:
     config:
-    - dns01:
-        provider: clouddns
-      domains:
-      - "*.$DOMAIN_BASE"
-      - $DOMAIN_BASE
+      - dns01:
+          provider: clouddns
+        domains:
+          - "*.$DOMAIN_BASE"
+          - $DOMAIN_BASE
