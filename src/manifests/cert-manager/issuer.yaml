@@ -8,11 +8,12 @@ spec:
     email: lmt.swallow@gmail.com
     privateKeySecretRef:
       name: letsencrypt-issuer
-    dns01:
-      providers:
-        - name: clouddns
-          clouddns:
-            serviceAccountSecretRef:
-              name: cert-manager-sa-key
-              key: cert-manager-key.json
-            project: $PROJECT_ID
+    solvers:
+      dns01:
+        providers:
+          - name: clouddns
+            clouddns:
+              serviceAccountSecretRef:
+                name: cert-manager-sa-key
+                key: cert-manager-key.json
+              project: $PROJECT_ID
