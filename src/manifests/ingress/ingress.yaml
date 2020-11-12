@@ -14,6 +14,12 @@ spec:
         serviceName: hello-app
         servicePort: 80
     rules:
+        - host: "burp.challenge.$DOMAIN_BASE"
+          http:
+              paths:
+                  - backend:
+                        serviceName: challenge-burp-service
+                        servicePort: 80
         - host: "$DOMAIN_BASE"
           http:
               paths:

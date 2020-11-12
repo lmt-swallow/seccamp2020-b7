@@ -1,4 +1,5 @@
 steps:
+  # Preparation
   - id: get-latest-kubectl
     name: gcr.io/cloud-builders/gcloud
     volumes:
@@ -12,6 +13,7 @@ steps:
         chmod +x kubectl
         mv kubectl /shared/kubectl
 
+  # Cert Manager
   - id: cert-manager
     name: gcr.io/cloud-builders/gcloud
     volumes:
@@ -43,6 +45,32 @@ steps:
         sed -i "s/\$$DOMAIN_BASE/$$DOMAIN_BASE/g" ./cert-manager/certificate.yaml
         kubectl apply -f ./cert-manager/certificate.yaml
 
+  # Challenge: Burp
+  - id: build-challenge-burp
+    name: gcr.io/kaniko-project/executor:latest
+    args:
+      - --destination=gcr.io/$PROJECT_ID/challenges/burp/app
+      - --context=./challenges/burp/app
+      - --cache=true
+      - --cache-ttl=7200h
+
+  - id: deploy-challenge-burp
+    name: gcr.io/cloud-builders/gcloud
+    volumes:
+      - name: shared
+        path: /shared
+    entrypoint: sh
+    args:
+      - -c
+      - |
+        alias kubectl=/shared/kubectl
+        gcloud container clusters get-credentials challenges --region asia-northeast1 --project $PROJECT_ID        
+
+        sed -i "s/\$$PROJECT_ID/$PROJECT_ID/g" ./challenges/burp/deployment.yaml
+        kubectl apply -f ./challenges/burp/deployment.yaml
+        kubectl apply -f ./challenges/burp/service.yaml
+
+  # Default App
   - id: hello-app
     name: gcr.io/cloud-builders/gcloud
     volumes:
@@ -57,6 +85,7 @@ steps:
         kubectl apply -f ./hello-app/deployment.yaml
         kubectl apply -f ./hello-app/service.yaml
 
+  # Ingress
   - id: ingress
     name: gcr.io/cloud-builders/gcloud
     volumes:
