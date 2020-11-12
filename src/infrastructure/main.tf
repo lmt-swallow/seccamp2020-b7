@@ -16,7 +16,13 @@ resource "google_dns_managed_zone" "default" {
 
   name     = "default"
   dns_name = "${var.domain_base}."
+
+  depends_on = [
+    google_project_service.dns,
+  ]
 }
+
+# gke
 
 module "gke" {
   project = var.project
