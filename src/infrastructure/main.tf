@@ -28,7 +28,7 @@ resource "google_dns_managed_zone" "default" {
 }
 
 resource "google_dns_record_set" "default-record" {
-  name         = "${var.domain_base}"
+  name         = "${var.domain_base}."
   type         = "A"
   ttl          = 300
   managed_zone = google_dns_managed_zone.default.name
@@ -40,7 +40,7 @@ resource "google_dns_record_set" "default-record" {
 }
 
 resource "google_dns_record_set" "default-wildcard-record" {
-  name         = "*.${var.domain_base}"
+  name         = "*.${var.domain_base}."
   type         = "A"
   ttl          = 300
   managed_zone = google_dns_managed_zone.default.name
