@@ -10,9 +10,8 @@ spec:
       name: letsencrypt-issuer
     solvers:
       - dns01:
-          providers:
-            clouddns:
-              serviceAccountSecretRef:
-                name: cert-manager-sa-key
-                key: cert-manager-key.json
-              project: $PROJECT_ID
+          cloudDNS:
+            serviceAccountSecretRef:
+              name: cert-manager-sa-key
+              key: cert-manager-key.json
+            project: $PROJECT_ID
