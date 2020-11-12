@@ -6,7 +6,7 @@ spec:
   secretName: challenge-cluster-certificate
   issuerRef:
     name: letsencrypt-issuer
-    kind: Issuer
+    kind: ClusterIssuer
   commonName: "*.$DOMAIN_BASE"
   dnsNames:
     - $DOMAIN_BASE
