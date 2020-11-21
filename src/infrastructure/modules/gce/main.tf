@@ -64,6 +64,22 @@ resource "google_compute_network" "default" {
   name = "challenge-gce"
 }
 
+resource "google_compute_firewall" "allow-access-from-google-infrastructure" {
+  name      = "allow-access-from-google-infrastructure"
+  network   = google_compute_network.default.name
+  direction = "INGRESS"
+
+  allow {
+    protocol = "tcp"
+  }
+
+  source_ranges = [
+    "35.191.0.0/16",
+    "130.211.0.0/22"
+  ]
+  target_tags = ["web"]
+}
+
 resource "google_compute_subnetwork" "default" {
   name          = "challenge-gce-subnet"
   ip_cidr_range = "192.168.1.0/24"
