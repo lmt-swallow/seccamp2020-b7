@@ -100,7 +100,7 @@ resource "google_compute_instance" "default" {
 }
 
 resource "google_compute_address" "default" {
-  region       = "asia-northeast-1"
+  region       = "asia-northeast1"
   name         = "challenge-gce"
   address_type = "EXTERNAL"
 }
