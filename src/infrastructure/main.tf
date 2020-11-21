@@ -56,12 +56,12 @@ resource "google_dns_record_set" "default-wildcard-record" {
   ]
 }
 
-resource "google_dns_record_set" "default-wildcard-record" {
-  name         = "*.clte.challenge.${var.domain_base}."
+resource "google_dns_record_set" "smuggling-record" {
+  name         = "*.smuggling.challenge.${var.domain_base}."
   type         = "A"
   ttl          = 300
   managed_zone = google_dns_managed_zone.default.name
-  rrdatas      = [module.gke.ingress_ip]
+  rrdatas      = [module.gce.instance_ip]
 
   depends_on = [
     google_project_service.dns,
