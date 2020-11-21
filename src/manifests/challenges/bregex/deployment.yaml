@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: challenge-bregex-deployment
+spec:
+  selector:
+    matchLabels:
+      app: bregex
+      type: challenge
+  template:
+    metadata:
+      labels:
+        app: bregex
+        type: challenge
+    spec:
+      containers:
+        - name: app
+          image: gcr.io/$PROJECT_ID/challenges/bregex/app:latest
+          imagePullPolicy: Always
+        - name: nginx
+          image: gcr.io/$PROJECT_ID/challenges/bregex/nginx:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80

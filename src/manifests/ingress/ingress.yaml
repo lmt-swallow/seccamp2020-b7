@@ -20,6 +20,12 @@ spec:
                   - backend:
                         serviceName: challenge-burp-service
                         servicePort: 80
+        - host: "bregex.challenge.$DOMAIN_BASE"
+          http:
+              paths:
+                  - backend:
+                        serviceName: challenge-bregex-service
+                        servicePort: 80
         - host: "cache-poisoning.challenge.$DOMAIN_BASE"
           http:
               paths:
