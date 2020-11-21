@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: challenge-esii-deployment
+spec:
+  selector:
+    matchLabels:
+      app: esii
+      type: challenge
+  template:
+    metadata:
+      labels:
+        app: esii
+        type: challenge
+    spec:
+      containers:
+        - name: app
+          image: gcr.io/$PROJECT_ID/challenges/esii/app:latest
+          imagePullPolicy: Always
+        - name: nginx
+          image: gcr.io/$PROJECT_ID/challenges/esii/nginx:latest
+          imagePullPolicy: Always
+        - name: ets
+          image: akamaiesi/ets-docker:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: ETS_CLI_ARGS
+              value: --remote_origin 127.0.0.1:8080 --no_sandbox --no_playground

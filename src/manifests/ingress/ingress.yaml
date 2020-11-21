@@ -26,6 +26,12 @@ spec:
                   - backend:
                         serviceName: challenge-bregex-service
                         servicePort: 80
+        - host: "esii.challenge.$DOMAIN_BASE"
+          http:
+              paths:
+                  - backend:
+                        serviceName: challenge-esii-service
+                        servicePort: 80
         - host: "cache-poisoning.challenge.$DOMAIN_BASE"
           http:
               paths:

@@ -103,6 +103,39 @@ steps:
         kubectl apply -f ./challenges/bregex/deployment.yaml
         kubectl apply -f ./challenges/bregex/service.yaml
 
+  # Challenge: esii
+  - id: build-challenge-esii-app
+    name: gcr.io/kaniko-project/executor:latest
+    args:
+      - --destination=gcr.io/$PROJECT_ID/challenges/esii/app
+      - --context=./challenges/esii/app
+      - --cache=true
+      - --cache-ttl=7200h
+
+  - id: build-challenge-esii-nginx
+    name: gcr.io/kaniko-project/executor:latest
+    args:
+      - --destination=gcr.io/$PROJECT_ID/challenges/esii/nginx
+      - --context=./challenges/esii/nginx
+      - --cache=true
+      - --cache-ttl=7200h
+
+  - id: deploy-challenge-esii
+    name: gcr.io/cloud-builders/gcloud
+    volumes:
+      - name: shared
+        path: /shared
+    entrypoint: sh
+    args:
+      - -c
+      - |
+        alias kubectl=/shared/kubectl
+        gcloud container clusters get-credentials challenges --region asia-northeast1 --project $PROJECT_ID        
+
+        sed -i "s/\$$PROJECT_ID/$PROJECT_ID/g" ./challenges/esii/deployment.yaml
+        kubectl apply -f ./challenges/esii/deployment.yaml
+        kubectl apply -f ./challenges/esii/service.yaml
+
   # Challenge: Cache Poisoning
   - id: build-challenge-cache-poisoning-app
     name: gcr.io/kaniko-project/executor:latest
