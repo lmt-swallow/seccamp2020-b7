@@ -6,7 +6,7 @@
 	<h1>Vue.js + PHP</h1>
 	<div id="app">
 		<p>私の名前は {{ name }} です.</p>
-		<p><?= isset($_GET['payload']) ? "こんにちは、" . $_GET['payload'] . "さん!" : "あなたの名前を教えてくだささい！" ?></p>
+		<p><?= isset($_GET['payload']) ? "こんにちは、" . htmlspecialchars($_GET['payload'], ENT_QUOTES, 'UTF-8') . "さん!" : "あなたの名前を教えてくだささい！" ?></p>
 	</div>
 
 	<h1>名前を教える</h1>
