@@ -89,7 +89,7 @@ resource "google_compute_instance" "default" {
   network_interface {
     subnetwork = google_compute_subnetwork.default.name
     access_config {
-      nat_ip = google_compute_address.defaulta.address
+      nat_ip = google_compute_address.default.address
     }
   }
 
