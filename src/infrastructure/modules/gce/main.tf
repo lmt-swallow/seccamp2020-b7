@@ -74,8 +74,7 @@ resource "google_compute_firewall" "allow-access-from-google-infrastructure" {
   }
 
   source_ranges = [
-    "35.191.0.0/16",
-    "130.211.0.0/22"
+    "35.235.240.0/20"
   ]
   target_tags = ["web"]
 }
