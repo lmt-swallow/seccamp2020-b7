@@ -65,7 +65,7 @@ resource "google_compute_network" "default" {
 }
 
 resource "google_compute_subnetwork" "default" {
-  name          = "default"
+  name          = "challenge-gce"
   ip_cidr_range = "192.168.1.0/24"
   region        = "asia-northeast1"
   network       = google_compute_network.default.name
