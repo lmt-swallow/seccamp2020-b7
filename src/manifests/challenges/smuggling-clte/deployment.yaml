@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: challenge-smuggling-clte-deployment
+spec:
+  selector:
+    matchLabels:
+      app: smuggling-clte
+      type: challenge
+  template:
+    metadata:
+      labels:
+        app: smuggling-clte
+        type: challenge
+    spec:
+      containers:
+        - name: app
+          image: gcr.io/$PROJECT_ID/challenges/smuggling-clte/app:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+        - name: haproxy
+          image: gcr.io/$PROJECT_ID/challenges/smuggling-clte/haproxy:latest
+          imagePullPolicy: Always
