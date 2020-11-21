@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  app:
+    build: ./app
+
+  haproxy:
+    build: ./haproxy
+    ports:
+      - 0.0.0.0:80:8080

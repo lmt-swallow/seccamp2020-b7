@@ -70,39 +70,6 @@ steps:
         kubectl apply -f ./challenges/burp/deployment.yaml
         kubectl apply -f ./challenges/burp/service.yaml
 
-  # Challenge: Smuggling - TE.CL
-  - id: build-challenge-smuggling-clte-app
-    name: gcr.io/kaniko-project/executor:latest
-    args:
-      - --destination=gcr.io/$PROJECT_ID/challenges/smuggling-clte/app
-      - --context=./challenges/smuggling-clte/app
-      - --cache=true
-      - --cache-ttl=7200h
-
-  - id: build-challenge-smuggling-clte-haproxy
-    name: gcr.io/kaniko-project/executor:latest
-    args:
-      - --destination=gcr.io/$PROJECT_ID/challenges/smuggling-clte/haproxy
-      - --context=./challenges/smuggling-clte/haproxy
-      - --cache=true
-      - --cache-ttl=7200h
-
-  - id: deploy-challenge-smuggling-clte
-    name: gcr.io/cloud-builders/gcloud
-    volumes:
-      - name: shared
-        path: /shared
-    entrypoint: sh
-    args:
-      - -c
-      - |
-        alias kubectl=/shared/kubectl
-        gcloud container clusters get-credentials challenges --region asia-northeast1 --project $PROJECT_ID        
-
-        sed -i "s/\$$PROJECT_ID/$PROJECT_ID/g" ./challenges/smuggling-clte/deployment.yaml
-        kubectl apply -f ./challenges/smuggling-clte/deployment.yaml
-        kubectl apply -f ./challenges/smuggling-clte/service.yaml
-
   # Default App
   - id: hello-app
     name: gcr.io/cloud-builders/gcloud
