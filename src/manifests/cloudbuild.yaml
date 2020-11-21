@@ -136,6 +136,39 @@ steps:
         kubectl apply -f ./challenges/esii/deployment.yaml
         kubectl apply -f ./challenges/esii/service.yaml
 
+  # Challenge: template-confusion
+  - id: build-challenge-template-confusion-app
+    name: gcr.io/kaniko-project/executor:latest
+    args:
+      - --destination=gcr.io/$PROJECT_ID/challenges/template-confusion/app
+      - --context=./challenges/template-confusion/app
+      - --cache=true
+      - --cache-ttl=7200h
+
+  - id: build-challenge-template-confusion-nginx
+    name: gcr.io/kaniko-project/executor:latest
+    args:
+      - --destination=gcr.io/$PROJECT_ID/challenges/template-confusion/nginx
+      - --context=./challenges/template-confusion/nginx
+      - --cache=true
+      - --cache-ttl=7200h
+
+  - id: deploy-challenge-template-confusion
+    name: gcr.io/cloud-builders/gcloud
+    volumes:
+      - name: shared
+        path: /shared
+    entrypoint: sh
+    args:
+      - -c
+      - |
+        alias kubectl=/shared/kubectl
+        gcloud container clusters get-credentials challenges --region asia-northeast1 --project $PROJECT_ID        
+
+        sed -i "s/\$$PROJECT_ID/$PROJECT_ID/g" ./challenges/template-confusion/deployment.yaml
+        kubectl apply -f ./challenges/template-confusion/deployment.yaml
+        kubectl apply -f ./challenges/template-confusion/service.yaml
+
   # Challenge: Cache Poisoning
   - id: build-challenge-cache-poisoning-app
     name: gcr.io/kaniko-project/executor:latest

@@ -32,6 +32,12 @@ spec:
                   - backend:
                         serviceName: challenge-esii-service
                         servicePort: 80
+        - host: "template-confusion.challenge.$DOMAIN_BASE"
+          http:
+              paths:
+                  - backend:
+                        serviceName: challenge-template-confusion-service
+                        servicePort: 80
         - host: "cache-poisoning.challenge.$DOMAIN_BASE"
           http:
               paths:
