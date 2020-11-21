@@ -17,8 +17,8 @@ spec:
         - name: app
           image: gcr.io/$PROJECT_ID/challenges/smuggling-clte/app:latest
           imagePullPolicy: Always
-          ports:
-            - containerPort: 8080
         - name: haproxy
           image: gcr.io/$PROJECT_ID/challenges/smuggling-clte/haproxy:latest
           imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
