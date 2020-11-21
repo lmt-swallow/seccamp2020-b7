@@ -140,7 +140,7 @@ steps:
   - id: build-challenge-cache-poisoning-app
     name: gcr.io/kaniko-project/executor:latest
     args:
-      - --destination=gcr.io/$PROJECT_ID/challenges/cacge-poisoning/app
+      - --destination=gcr.io/$PROJECT_ID/challenges/cache-poisoning/app
       - --context=./challenges/cache-poisoning/app
       - --cache=true
       - --cache-ttl=7200h
@@ -148,7 +148,7 @@ steps:
   - id: build-challenge-cache-poisoning-nginx
     name: gcr.io/kaniko-project/executor:latest
     args:
-      - --destination=gcr.io/$PROJECT_ID/challenges/cacge-poisoning/nginx
+      - --destination=gcr.io/$PROJECT_ID/challenges/cache-poisoning/nginx
       - --context=./challenges/cache-poisoning/nginx
       - --cache=true
       - --cache-ttl=7200h
