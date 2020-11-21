@@ -1,4 +1,5 @@
 <head>
+	<title>Vue.js + PHP</title>
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
 </head>
 
