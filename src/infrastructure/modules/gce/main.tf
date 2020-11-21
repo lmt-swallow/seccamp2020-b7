@@ -93,7 +93,8 @@ resource "google_compute_instance" "default" {
     }
   }
 
-  service_account = {
+  service_account {
+    email  = google_service_account.challenge_gce.email
     scopes = ["cloud-platform"]
   }
 }
