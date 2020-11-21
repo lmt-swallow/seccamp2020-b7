@@ -44,6 +44,12 @@ spec:
                   - backend:
                         serviceName: challenge-cache-poisoning-service
                         servicePort: 80
+        - host: "cache-deception.challenge.$DOMAIN_BASE"
+          http:
+              paths:
+                  - backend:
+                        serviceName: challenge-cache-deception-service
+                        servicePort: 80
         - host: "$DOMAIN_BASE"
           http:
               paths:

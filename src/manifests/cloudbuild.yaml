@@ -202,6 +202,39 @@ steps:
         kubectl apply -f ./challenges/cache-poisoning/deployment.yaml
         kubectl apply -f ./challenges/cache-poisoning/service.yaml
 
+  # Challenge: Cache Deception
+  - id: build-challenge-cache-deception-app
+    name: gcr.io/kaniko-project/executor:latest
+    args:
+      - --destination=gcr.io/$PROJECT_ID/challenges/cache-deception/app
+      - --context=./challenges/cache-deception/app
+      - --cache=true
+      - --cache-ttl=7200h
+
+  - id: build-challenge-cache-deception-nginx
+    name: gcr.io/kaniko-project/executor:latest
+    args:
+      - --destination=gcr.io/$PROJECT_ID/challenges/cache-deception/nginx
+      - --context=./challenges/cache-deception/nginx
+      - --cache=true
+      - --cache-ttl=7200h
+
+  - id: deploy-challenge-cache-deception
+    name: gcr.io/cloud-builders/gcloud
+    volumes:
+      - name: shared
+        path: /shared
+    entrypoint: sh
+    args:
+      - -c
+      - |
+        alias kubectl=/shared/kubectl
+        gcloud container clusters get-credentials challenges --region asia-northeast1 --project $PROJECT_ID        
+
+        sed -i "s/\$$PROJECT_ID/$PROJECT_ID/g" ./challenges/cache-deception/deployment.yaml
+        kubectl apply -f ./challenges/cache-deception/deployment.yaml
+        kubectl apply -f ./challenges/cache-deception/service.yaml
+
   # Default App
   - id: hello-app
     name: gcr.io/cloud-builders/gcloud

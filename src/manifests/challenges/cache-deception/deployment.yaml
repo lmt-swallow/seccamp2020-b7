@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: challenge-cache-deception-deployment
+spec:
+  selector:
+    matchLabels:
+      app: cache-deception
+      type: challenge
+  template:
+    metadata:
+      labels:
+        app: cache-deception
+        type: challenge
+    spec:
+      containers:
+        - name: nginx
+          image: gcr.io/$PROJECT_ID/challenges/cache-deception/nginx:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+
+        - name: app
+          image: gcr.io/$PROJECT_ID/challenges/cache-deception/app:latest
+          imagePullPolicy: Always
