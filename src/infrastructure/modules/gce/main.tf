@@ -89,7 +89,7 @@ resource "google_compute_instance" "default" {
   network_interface {
     subnetwork = google_compute_subnetwork.default.name
     access_config {
-      nat_ip = google_compute_global_address.default.address
+      nat_ip = google_compute_address.default.address
     }
   }
 
@@ -99,7 +99,8 @@ resource "google_compute_instance" "default" {
   }
 }
 
-resource "google_compute_global_address" "default" {
+resource "google_compute_address" "default" {
+  region       = "asia-northeast-1"
   name         = "challenge-gce"
   address_type = "EXTERNAL"
 }
