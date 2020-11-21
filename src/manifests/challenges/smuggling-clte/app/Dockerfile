@@ -10,7 +10,7 @@ RUN apt-get update \
 COPY ./src /app
 COPY ./gunicorn.conf.py /etc/
 
-RUN chmod 444 /app/app.py /app/store.py \
+RUN chmod 444 /app/app.py \
     && chmod 400 /etc/gunicorn.conf.py \
     && useradd -UM app
 

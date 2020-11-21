@@ -20,7 +20,7 @@ spec:
                   - backend:
                         serviceName: challenge-burp-service
                         servicePort: 80
-        - host: "smuggling-clte.challenge.$DOMAIN_BASE"
+        - host: "*.clte.challenge.$DOMAIN_BASE"
           http:
               paths:
                   - backend:
