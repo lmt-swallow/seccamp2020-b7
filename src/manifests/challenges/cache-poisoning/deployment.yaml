@@ -18,7 +18,7 @@ spec:
           image: gcr.io/$PROJECT_ID/challenges/cache-poisoning/nginx:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080
+            - containerPort: 80
 
         - name: app
           image: gcr.io/$PROJECT_ID/challenges/cache-poisoning/app:latest
