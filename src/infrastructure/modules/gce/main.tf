@@ -19,19 +19,19 @@ resource "google_service_account" "challenge_gce" {
   ]
 }
 
-resource "google_project_iam_custom_role" "challenge-node-role" {
-  role_id     = "challenge_node_role"
+resource "google_project_iam_custom_role" "challenge-gce-role" {
+  role_id     = "challenge_gce_role"
   title       = "Challenge Node"
   description = "A role for challenge nodes"
   permissions = ["compute.projects.setCommonInstanceMetadata", "compute.projects.get", "compute.globalOperations.get"]
 }
 
 resource "google_project_iam_member" "node" {
-  role   = google_project_iam_custom_role.challenge-node-role.name
+  role   = google_project_iam_custom_role.challenge-gce-role.name
   member = "serviceAccount:${google_service_account.challenge_gce.email}"
 
   depends_on = [
-    google_project_iam_custom_role.challenge-node-role,
+    google_project_iam_custom_role.challenge-gce-role,
     google_project_service.iam,
   ]
 }
