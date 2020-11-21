@@ -35,11 +35,14 @@ if (!isset($_GET['q'])) {
     </section>
     <section class="section">
         <div class="container">
-            <p>以下に XSS 脆弱性があります。
-                <pre>alert('Cookie 中の PHPSESSID の値を含む文字列')</pre> をなんとかして実行してください！</p>
+            <p>以下に XSS 脆弱性があります。</p>
+            <hr>
+            <?= $_GET['q'] ?>
+            <hr>
+
+            <p><pre>alert('Cookie 中の PHPSESSID の値を含む文字列')</pre> をなんとかして実行してください！</p>
             <p>ヒント: PHPSESSID には HttpOnly 属性が付与されているため、
                 <pre>alert(document.cookie)</pre> とはできませんが、ESI を利用すると…</p>
-            <?= $_GET['q'] ?>
         </div>
     </section>
 </body>
