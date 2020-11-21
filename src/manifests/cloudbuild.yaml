@@ -70,6 +70,39 @@ steps:
         kubectl apply -f ./challenges/burp/deployment.yaml
         kubectl apply -f ./challenges/burp/service.yaml
 
+  # Challenge: Cache Poisoning
+  - id: build-challenge-cache-poisoning-app
+    name: gcr.io/kaniko-project/executor:latest
+    args:
+      - --destination=gcr.io/$PROJECT_ID/challenges/cacge-poisoning/app
+      - --context=./challenges/cache-poisoning/app
+      - --cache=true
+      - --cache-ttl=7200h
+
+  - id: build-challenge-cache-poisoning-nginx
+    name: gcr.io/kaniko-project/executor:latest
+    args:
+      - --destination=gcr.io/$PROJECT_ID/challenges/cacge-poisoning/nginx
+      - --context=./challenges/cache-poisoning/nginx
+      - --cache=true
+      - --cache-ttl=7200h
+
+  - id: deploy-challenge-cache-poisoning
+    name: gcr.io/cloud-builders/gcloud
+    volumes:
+      - name: shared
+        path: /shared
+    entrypoint: sh
+    args:
+      - -c
+      - |
+        alias kubectl=/shared/kubectl
+        gcloud container clusters get-credentials challenges --region asia-northeast1 --project $PROJECT_ID        
+
+        sed -i "s/\$$PROJECT_ID/$PROJECT_ID/g" ./challenges/cache-poisoning/deployment.yaml
+        kubectl apply -f ./challenges/cache-poisoning/deployment.yaml
+        kubectl apply -f ./challenges/cache-poisoning/service.yaml
+
   # Default App
   - id: hello-app
     name: gcr.io/cloud-builders/gcloud

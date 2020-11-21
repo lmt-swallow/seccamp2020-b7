@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: challenge-cache-poisoning-deployment
+spec:
+  selector:
+    matchLabels:
+      app: cache-poisoning
+      type: challenge
+  template:
+    metadata:
+      labels:
+        app: cache-poisoning
+        type: challenge
+    spec:
+      containers:
+        - name: nginx
+          image: gcr.io/$PROJECT_ID/challenges/cache-poisoning/nginx:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+
+        - name: app
+          image: gcr.io/$PROJECT_ID/challenges/cache-poisoning/app:latest
+          imagePullPolicy: Always

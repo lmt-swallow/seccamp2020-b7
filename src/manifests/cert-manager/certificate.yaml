@@ -12,5 +12,3 @@ spec:
     - $DOMAIN_BASE
     - "*.$DOMAIN_BASE"
     - "*.challenge.$DOMAIN_BASE"
-    - "*.clte.challenge.$DOMAIN_BASE"
-    - "*.tecl.challenge.$DOMAIN_BASE"
