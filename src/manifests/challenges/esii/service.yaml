@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: challenge-esii-service
+  annotations:
+    cloud.google.com/backend-config: '{"ports": {"80":"esii-backend-config"}}'
 spec:
   type: NodePort
   selector:
@@ -10,3 +12,13 @@ spec:
   ports:
     - port: 80
       targetPort: 80
+
+---
+apiVersion: cloud.google.com/v1beta1
+kind: BackendConfig
+metadata:
+  name: esii-backend-config
+spec:
+  customRequestHeaders:
+    headers:
+      - "Host:127.0.0.1:8080"
