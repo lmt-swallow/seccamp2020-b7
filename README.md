@@ -3,7 +3,11 @@
 ## 講義タイトル
 
 - 日本語: 「マクロな視点から捉える Web セキュリティ: Web インフラストラクチャを利用した攻撃とサイドチャネル攻撃の実践と評価」
-- English: "Web Security from Micro to Macro: Understanding Modern Hacking Techniques with Web Infrastructure and Side-channels"
+- English: "Web Security from the Macro Perspective: Understanding Modern Hacking Techniques with Web Infrastructure and Side-channels"
+
+## 講義スライド
+
+- [ここ (Speaker Deck)](https://speakerdeck.com/lmt_swallow/web-security-from-the-macro-perspective) にあります。
 
 ## 講義概要（Web 掲載物）
 
